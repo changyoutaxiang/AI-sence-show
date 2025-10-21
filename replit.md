@@ -20,6 +20,15 @@ Full-featured application complete with all enhancements. The application includ
 - 6 seeded sample atomic scenarios
 
 ## Recent Changes (October 21, 2025 - Latest)
+**Owner Attribution & Resource Links:**
+- Added owner information to data model: ownerName (required) and ownerAvatar (optional)
+- Enhanced scenario cards: removed category badge overlay from images, added circular owner avatar and name at bottom
+- Updated detail pages: metadata section now shows owner info with avatar (3 columns: team, timeline, owner)
+- Added 4 optional resource links: requirementDocUrl, githubRepoUrl, demoManualUrl, installGuideUrl
+- Detail pages display clickable resource links card with icons when links are available
+- Admin form enhanced with owner fields and resource link inputs
+- All 6 seeded scenarios updated with owner information and sample resource links
+
 **Database Migration:**
 - Migrated from in-memory to PostgreSQL database
 - Added scenarios and scenarioViews tables
@@ -53,6 +62,8 @@ Scenarios contain:
 - Basic info: title, description, category
 - Problem/solution narrative: businessProblem, solution, technicalDetails, impact
 - Metadata: team, timeline, metrics[], imageUrl
+- Owner attribution: ownerName (required), ownerAvatar (optional)
+- Resource links (all optional): requirementDocUrl, githubRepoUrl, demoManualUrl, installGuideUrl
 
 ### Frontend Structure
 - `/` - Homepage with hero, search, category filters, and card grid
@@ -87,6 +98,9 @@ Scenarios contain:
 None recorded yet.
 
 ## Completed Enhancements
+✅ Owner attribution - Scenario cards and detail pages display project owner with avatar
+✅ Resource links - Detail pages show clickable links to requirement docs, GitHub repos, demos, and installation guides
+✅ Improved card layout - Removed overlapping category badges, cleaner owner info display
 ✅ Search functionality - Real-time filtering by keywords across multiple fields
 ✅ Admin interface - Complete form for team members to submit new scenarios
 ✅ Analytics tracking - View counts for each scenario with aggregated dashboard
