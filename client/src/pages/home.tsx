@@ -3,22 +3,31 @@ import { useQuery } from "@tanstack/react-query";
 import { ScenarioCard } from "@/components/scenario-card";
 import { ScenarioSkeleton } from "@/components/scenario-skeleton";
 import { Button } from "@/components/ui/button";
-import { Sparkles } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Sparkles, Search } from "lucide-react";
 import type { Scenario } from "@shared/schema";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Link } from "wouter";
 
 const categories = ["全部", "数据处理", "自动化", "分析预测", "文档生成", "其他"];
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("全部");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { data: scenarios, isLoading } = useQuery<Scenario[]>({
     queryKey: ["/api/scenarios"],
   });
 
-  const filteredScenarios = scenarios?.filter(
-    (scenario) => selectedCategory === "全部" || scenario.category === selectedCategory
-  );
+  const filteredScenarios = scenarios?.filter((scenario) => {
+    const matchesCategory = selectedCategory === "全部" || scenario.category === selectedCategory;
+    const matchesSearch = searchQuery === "" || 
+      scenario.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      scenario.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      scenario.businessProblem.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      scenario.solution.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -51,18 +60,32 @@ export default function Home() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 pb-24">
-        <div className="flex flex-wrap gap-3 mb-12 sticky top-[73px] z-40 py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          {categories.map((category) => (
-            <Button
-              key={category}
-              variant={selectedCategory === category ? "default" : "outline"}
-              onClick={() => setSelectedCategory(category)}
-              data-testid={`button-category-${category}`}
-              className="rounded-full"
-            >
-              {category}
-            </Button>
-          ))}
+        <div className="sticky top-[73px] z-40 py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 space-y-4">
+          <div className="relative max-w-md">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="搜索项目标题、描述、业务问题..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+              data-testid="input-search"
+            />
+          </div>
+          
+          <div className="flex flex-wrap gap-3">
+            {categories.map((category) => (
+              <Button
+                key={category}
+                variant={selectedCategory === category ? "default" : "outline"}
+                onClick={() => setSelectedCategory(category)}
+                data-testid={`button-category-${category}`}
+                className="rounded-full"
+              >
+                {category}
+              </Button>
+            ))}
+          </div>
         </div>
 
         {isLoading ? (
@@ -96,9 +119,20 @@ export default function Home() {
             <p className="text-sm text-muted-foreground" data-testid="text-footer">
               © 2025 AI原子场景展示中心. 持续创新，服务业务。
             </p>
-            <div className="flex gap-6 text-sm text-muted-foreground">
-              <a href="#" className="hover:text-foreground transition-colors" data-testid="link-contact">联系我们</a>
-              <a href="#" className="hover:text-foreground transition-colors" data-testid="link-team">团队介绍</a>
+            <div className="flex flex-wrap items-center gap-4 text-sm">
+              <Link href="/admin">
+                <Button variant="default" size="sm" data-testid="link-admin">
+                  <Sparkles className="w-3 h-3 mr-1" />
+                  提交项目
+                </Button>
+              </Link>
+              <Link href="/analytics">
+                <Button variant="outline" size="sm" data-testid="link-analytics">
+                  数据分析
+                </Button>
+              </Link>
+              <a href="#" className="hover:text-foreground transition-colors text-muted-foreground" data-testid="link-contact">联系我们</a>
+              <a href="#" className="hover:text-foreground transition-colors text-muted-foreground" data-testid="link-team">团队介绍</a>
             </div>
           </div>
         </div>

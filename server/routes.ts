@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertScenarioSchema } from "@shared/schema";
+import { insertScenarioSchema, insertScenarioViewSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/scenarios", async (_req, res) => {
@@ -32,6 +32,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(201).json(scenario);
     } catch (error) {
       res.status(400).json({ error: "Invalid scenario data" });
+    }
+  });
+
+  app.post("/api/scenarios/:id/view", async (req, res) => {
+    try {
+      const validatedData = insertScenarioViewSchema.parse({ scenarioId: req.params.id });
+      await storage.trackView(validatedData);
+      res.status(201).json({ success: true });
+    } catch (error) {
+      res.status(400).json({ error: "Failed to track view" });
+    }
+  });
+
+  app.get("/api/analytics", async (_req, res) => {
+    try {
+      const analytics = await storage.getAnalytics();
+      res.json(analytics);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch analytics" });
     }
   });
 

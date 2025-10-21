@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, integer, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -18,9 +18,22 @@ export const scenarios = pgTable("scenarios", {
   metrics: text("metrics").array().notNull(),
 });
 
+export const scenarioViews = pgTable("scenario_views", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  scenarioId: varchar("scenario_id").notNull().references(() => scenarios.id),
+  viewedAt: timestamp("viewed_at").notNull().defaultNow(),
+});
+
 export const insertScenarioSchema = createInsertSchema(scenarios).omit({
   id: true,
 });
 
+export const insertScenarioViewSchema = createInsertSchema(scenarioViews).omit({
+  id: true,
+  viewedAt: true,
+});
+
 export type InsertScenario = z.infer<typeof insertScenarioSchema>;
 export type Scenario = typeof scenarios.$inferSelect;
+export type ScenarioView = typeof scenarioViews.$inferSelect;
+export type InsertScenarioView = z.infer<typeof insertScenarioViewSchema>;

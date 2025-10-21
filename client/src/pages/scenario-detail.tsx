@@ -3,19 +3,49 @@ import { useParams, Link } from "wouter";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Users, Clock, Target, Lightbulb, Code, TrendingUp } from "lucide-react";
+import { ArrowLeft, Users, Clock, Target, Lightbulb, Code, TrendingUp, Download } from "lucide-react";
 import { CategoryBadge } from "@/components/category-badge";
 import type { Scenario } from "@shared/schema";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useEffect } from "react";
+import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ScenarioDetail() {
   const params = useParams();
   const scenarioId = params.id;
+  const { toast } = useToast();
 
   const { data: scenario, isLoading } = useQuery<Scenario>({
-    queryKey: ["/api/scenarios", scenarioId],
+    queryKey: [`/api/scenarios/${scenarioId}`],
     enabled: !!scenarioId,
   });
+
+  useEffect(() => {
+    if (scenarioId) {
+      apiRequest("POST", `/api/scenarios/${scenarioId}/view`).catch(() => {});
+    }
+  }, [scenarioId]);
+
+  const exportScenario = () => {
+    if (!scenario) return;
+    
+    const dataStr = JSON.stringify(scenario, null, 2);
+    const dataBlob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${scenario.title.replace(/\s+/g, "_")}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    toast({
+      title: "导出成功",
+      description: "项目数据已导出为JSON文件",
+    });
+  };
 
   if (isLoading) {
     return (
@@ -71,7 +101,13 @@ export default function ScenarioDetail() {
               返回首页
             </Button>
           </Link>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={exportScenario} data-testid="button-export">
+              <Download className="w-4 h-4 mr-2" />
+              导出项目
+            </Button>
+            <ThemeToggle />
+          </div>
         </div>
       </div>
 
