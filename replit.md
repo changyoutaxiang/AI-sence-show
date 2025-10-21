@@ -7,22 +7,44 @@ A showcase web application for displaying the team's AI projects ("atomic scenar
 Enable company-wide browsing of AI solutions developed by the team. Each "atomic scenario" represents a focused AI application that addresses a specific business problem.
 
 ## Current State
-MVP complete and functional. The application includes:
-- Homepage with hero section and card-based gallery
+Full-featured application complete with all enhancements. The application includes:
+- Homepage with hero section, card-based gallery, and real-time search
 - Category filtering system (数据处理, 自动化, 分析预测, 文档生成, 其他)
-- Individual project detail pages
+- Individual project detail pages with view tracking
+- Admin interface for submitting new scenarios
+- Analytics dashboard showing most viewed projects
+- JSON export functionality for scenarios and analytics
+- PostgreSQL database persistence
 - Light/dark mode theme toggle
 - Responsive design for mobile, tablet, and desktop
-- 6 sample atomic scenarios showcasing different categories
+- 6 seeded sample atomic scenarios
 
-## Recent Changes (October 21, 2025)
-- Defined atomic scenario data model with comprehensive fields
-- Implemented homepage with hero section, category filters, and responsive card grid
-- Created detail pages with structured content sections
-- Added theme toggle with localStorage persistence
-- Built backend API with GET /api/scenarios and GET /api/scenarios/:id endpoints
-- Populated in-memory storage with 6 sample scenarios
-- All features tested and verified end-to-end
+## Recent Changes (October 21, 2025 - Latest)
+**Database Migration:**
+- Migrated from in-memory to PostgreSQL database
+- Added scenarios and scenarioViews tables
+- Implemented database seeding with sample data
+
+**Search & Filtering:**
+- Added real-time search bar filtering by title, description, businessProblem, and solution
+- Search works in combination with category filters
+
+**Admin Interface:**
+- Created /admin page with comprehensive form
+- Form validation using Zod schemas with react-hook-form
+- Metrics array management with add/remove functionality
+- Toast notifications for submission feedback
+
+**Analytics & Tracking:**
+- Added view tracking on scenario detail pages
+- Created /analytics dashboard showing top viewed projects
+- Aggregated view counts with scenario details
+- Export analytics data as JSON
+
+**Export Functionality:**
+- Export individual scenarios as JSON from detail pages
+- Export full analytics report as JSON from analytics dashboard
+- Client-side Blob download implementation
 
 ## Project Architecture
 
@@ -33,29 +55,49 @@ Scenarios contain:
 - Metadata: team, timeline, metrics[], imageUrl
 
 ### Frontend Structure
-- `/` - Homepage with hero, filters, and card grid
-- `/scenario/:id` - Detail page for individual atomic scenario
+- `/` - Homepage with hero, search, category filters, and card grid
+- `/scenario/:id` - Detail page with view tracking and export
+- `/admin` - Admin form for submitting new scenarios
+- `/analytics` - Analytics dashboard with view counts and export
 - Components: ScenarioCard, CategoryBadge, ScenarioSkeleton, ThemeToggle
 - Styling: Tailwind CSS with custom design tokens, dark mode support
+- Forms: react-hook-form with Zod validation
+- Data fetching: TanStack Query with cache invalidation
 
 ### Backend
 - Express.js API server
-- In-memory storage (MemStorage class)
-- API routes: GET /api/scenarios, GET /api/scenarios/:id, POST /api/scenarios
-- Validation using Zod schemas
+- PostgreSQL database with Drizzle ORM
+- Database storage (DbStorage class)
+- API routes:
+  - GET /api/scenarios - Fetch all scenarios
+  - GET /api/scenarios/:id - Fetch single scenario
+  - POST /api/scenarios - Create new scenario
+  - POST /api/scenarios/:id/view - Track scenario view
+  - GET /api/analytics - Get aggregated view counts
+- Validation using Zod schemas from drizzle-zod
 
 ### Technology Stack
-- Frontend: React + Wouter + TanStack Query + Tailwind CSS + Shadcn UI
+- Frontend: React + Wouter + TanStack Query + Tailwind CSS + Shadcn UI + react-hook-form
 - Backend: Express.js + TypeScript
-- Storage: In-memory (MemStorage)
+- Database: PostgreSQL (Neon) with Drizzle ORM
 - Build: Vite
+- Validation: Zod schemas
 
 ## User Preferences
 None recorded yet.
 
-## Next Steps (Future Enhancements)
-- Add search functionality to filter scenarios by keywords
-- Implement admin interface for team members to submit new scenarios
-- Add analytics to track which scenarios are viewed most
+## Completed Enhancements
+✅ Search functionality - Real-time filtering by keywords across multiple fields
+✅ Admin interface - Complete form for team members to submit new scenarios
+✅ Analytics tracking - View counts for each scenario with aggregated dashboard
+✅ Export functionality - JSON export for individual scenarios and analytics data
+✅ Database persistence - PostgreSQL database with proper migrations
+
+## Potential Future Enhancements
 - Enable tagging system for cross-category scenario discovery
-- Add export/share functionality for individual scenarios
+- Add user authentication for admin access control
+- Implement rich text editor for scenario descriptions
+- Add image upload functionality instead of URL input
+- Create comparison view to compare multiple scenarios side-by-side
+- Add email notifications when new scenarios are submitted
+- Implement commenting/feedback system for scenarios
