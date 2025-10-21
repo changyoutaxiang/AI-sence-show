@@ -7,7 +7,7 @@ A showcase web application for displaying the team's AI projects ("atomic scenar
 Enable company-wide browsing of AI solutions developed by the team. Each "atomic scenario" represents a focused AI application that addresses a specific business problem.
 
 ## Current State
-Full-featured application complete with all enhancements. The application includes:
+Full-featured bilingual (Chinese/English) application complete with all enhancements. The application includes:
 - Homepage with hero section, card-based gallery, and real-time search
 - Category filtering system (数据处理, 自动化, 分析预测, 文档生成, 其他)
 - Individual project detail pages with view tracking
@@ -15,11 +15,31 @@ Full-featured application complete with all enhancements. The application includ
 - Analytics dashboard showing most viewed projects
 - JSON export functionality for scenarios and analytics
 - PostgreSQL database persistence
+- **Bilingual support (Chinese/English) with language toggle**
 - Light/dark mode theme toggle
 - Responsive design for mobile, tablet, and desktop
 - 6 seeded sample atomic scenarios
 
 ## Recent Changes (October 21, 2025 - Latest)
+**Internationalization (i18n) - Chinese/English Bilingual Support:**
+- Implemented comprehensive i18n system with LanguageProvider context
+- Created translation dictionary with 100+ keys covering all UI text
+- Built LanguageToggle component with localStorage persistence
+- All pages support Chinese/English language switching (Home, ScenarioDetail, Admin, Analytics)
+- Language preference persists across navigation and page refreshes
+- Default language: Chinese (可切换到英文)
+- Translation coverage includes:
+  * All page headings, labels, buttons, placeholders
+  * Toast notifications and validation messages
+  * Category names and resource link descriptions
+  * Comments section and form labels
+  * Footer text and navigation links
+- Zero hardcoded bilingual strings - all text uses centralized t() translation function
+- Translation architecture:
+  * client/src/lib/i18n.tsx: LanguageProvider context, translations dictionary, useTranslation hook
+  * client/src/components/language-toggle.tsx: Language toggle button component
+  * LanguageToggle displayed in header on all pages alongside ThemeToggle
+
 **UI Simplification & Comments Feature:**
 - Removed avatar images system-wide - now only showing owner name as text attribution
 - Made scenario cards fully clickable - removed redundant "查看详情" button for cleaner UX
@@ -85,7 +105,8 @@ Comments contain:
 - `/scenario/:id` - Detail page with view tracking and export
 - `/admin` - Admin form for submitting new scenarios
 - `/analytics` - Analytics dashboard with view counts and export
-- Components: ScenarioCard, CategoryBadge, ScenarioSkeleton, ThemeToggle
+- Components: ScenarioCard, CategoryBadge, ScenarioSkeleton, ThemeToggle, LanguageToggle
+- i18n: LanguageProvider context, useTranslation hook, centralized translation dictionary
 - Styling: Tailwind CSS with custom design tokens, dark mode support
 - Forms: react-hook-form with Zod validation
 - Data fetching: TanStack Query with cache invalidation
@@ -106,6 +127,7 @@ Comments contain:
 
 ### Technology Stack
 - Frontend: React + Wouter + TanStack Query + Tailwind CSS + Shadcn UI + react-hook-form
+- i18n: Custom React Context with localStorage persistence
 - Backend: Express.js + TypeScript
 - Database: PostgreSQL (Neon) with Drizzle ORM
 - Build: Vite
@@ -115,6 +137,7 @@ Comments contain:
 None recorded yet.
 
 ## Completed Enhancements
+✅ **Bilingual support (Chinese/English)** - Complete i18n system with language toggle, 100+ translation keys, localStorage persistence
 ✅ Owner attribution - Scenario cards and detail pages display project owner (text-only, no avatars)
 ✅ Resource links - Detail pages show clickable links to requirement docs, GitHub repos, demos, and installation guides
 ✅ Improved card layout - Removed overlapping category badges, cleaner owner info display
