@@ -23,6 +23,12 @@ const translations = {
     "common.search": "搜索",
     "common.searchPlaceholder": "搜索标题、描述、问题或解决方案...",
     "common.allCategories": "全部分类",
+    "common.appName": "AI原子场景",
+    "common.contact": "联系我们",
+    "common.team": "团队介绍",
+    "common.footer": "© 2025 AI原子场景展示中心. 持续创新，服务业务。",
+    "common.languageToggle": "切换到中文",
+    "common.languageToggleAria": "切换语言",
     
     // Navigation
     "nav.home": "首页",
@@ -65,6 +71,13 @@ const translations = {
     "detail.installGuide": "安装指南",
     "detail.viewTracked": "已记录浏览",
     "detail.exportScenario": "导出场景数据",
+    "detail.notFound": "项目未找到",
+    "detail.exportSuccess": "导出成功",
+    "detail.exportSuccessDesc": "项目数据已导出为JSON文件",
+    "detail.reqDocDesc": "查看详细需求",
+    "detail.githubDesc": "查看源代码",
+    "detail.demoDesc": "观看演示",
+    "detail.installDesc": "部署指南",
     
     // Comments
     "comments.title": "用户评论",
@@ -78,6 +91,9 @@ const translations = {
     "comments.successDesc": "您的评论已发表",
     "comments.error": "评论失败",
     "comments.errorDesc": "请重试",
+    "comments.loading": "加载评论中...",
+    "comments.validationError": "请填写完整信息",
+    "comments.validationErrorDesc": "评论内容和姓名不能为空",
     
     // Admin Page
     "admin.pageTitle": "提交新项目",
@@ -158,6 +174,12 @@ const translations = {
     "common.search": "Search",
     "common.searchPlaceholder": "Search title, description, problem or solution...",
     "common.allCategories": "All Categories",
+    "common.appName": "AI Scenarios",
+    "common.contact": "Contact",
+    "common.team": "Team",
+    "common.footer": "© 2025 AI Atomic Scenarios Showcase. Innovation for Business.",
+    "common.languageToggle": "Switch to English",
+    "common.languageToggleAria": "Toggle language",
     
     // Navigation
     "nav.home": "Home",
@@ -200,6 +222,13 @@ const translations = {
     "detail.installGuide": "Installation Guide",
     "detail.viewTracked": "View tracked",
     "detail.exportScenario": "Export Scenario Data",
+    "detail.notFound": "Project Not Found",
+    "detail.exportSuccess": "Export Successful",
+    "detail.exportSuccessDesc": "Project data exported as JSON file",
+    "detail.reqDocDesc": "View detailed requirements",
+    "detail.githubDesc": "View source code",
+    "detail.demoDesc": "Watch demo",
+    "detail.installDesc": "Deployment guide",
     
     // Comments
     "comments.title": "User Comments",
@@ -213,6 +242,9 @@ const translations = {
     "comments.successDesc": "Your comment has been published",
     "comments.error": "Failed to post",
     "comments.errorDesc": "Please try again",
+    "comments.loading": "Loading comments...",
+    "comments.validationError": "Please fill in all fields",
+    "comments.validationErrorDesc": "Comment and name cannot be empty",
     
     // Admin Page
     "admin.pageTitle": "Submit New Project",

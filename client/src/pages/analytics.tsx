@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, TrendingUp, Eye, Sparkles, Download } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { LanguageToggle } from "@/components/language-toggle";
 import { CategoryBadge } from "@/components/category-badge";
 import type { Scenario } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
@@ -74,6 +75,7 @@ export default function Analytics() {
               <Download className="w-4 h-4 mr-2" />
               {t("analytics.exportAnalytics")}
             </Button>
+            <LanguageToggle />
             <ThemeToggle />
           </div>
         </div>

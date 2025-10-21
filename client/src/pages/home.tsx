@@ -48,7 +48,7 @@ export default function Home() {
               <Sparkles className="w-5 h-5 text-primary-foreground" />
             </div>
             <span className="text-xl font-bold" data-testid="text-logo">
-              {language === "zh" ? "AI原子场景" : "AI Scenarios"}
+              {t("common.appName")}
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -134,9 +134,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground" data-testid="text-footer">
-              {language === "zh" 
-                ? "© 2025 AI原子场景展示中心. 持续创新，服务业务。" 
-                : "© 2025 AI Atomic Scenarios Showcase. Innovation for Business."}
+              {t("common.footer")}
             </p>
             <div className="flex flex-wrap items-center gap-4 text-sm">
               <Link href="/admin">
@@ -151,10 +149,10 @@ export default function Home() {
                 </Button>
               </Link>
               <a href="#" className="hover:text-foreground transition-colors text-muted-foreground" data-testid="link-contact">
-                {language === "zh" ? "联系我们" : "Contact"}
+                {t("common.contact")}
               </a>
               <a href="#" className="hover:text-foreground transition-colors text-muted-foreground" data-testid="link-team">
-                {language === "zh" ? "团队介绍" : "Team"}
+                {t("common.team")}
               </a>
             </div>
           </div>

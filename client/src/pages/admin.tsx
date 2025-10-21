@@ -13,6 +13,7 @@ import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Plus, Sparkles } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { LanguageToggle } from "@/components/language-toggle";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { useTranslation } from "@/lib/i18n";
@@ -107,7 +108,10 @@ export default function Admin() {
               <span className="text-xl font-bold">{t("admin.pageTitle")}</span>
             </div>
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
         </div>
       </div>
 

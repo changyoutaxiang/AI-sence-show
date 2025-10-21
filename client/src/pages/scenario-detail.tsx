@@ -9,6 +9,7 @@ import { ArrowLeft, Users, Clock, Target, Lightbulb, Code, TrendingUp, Download,
 import { CategoryBadge } from "@/components/category-badge";
 import type { Scenario, Comment } from "@shared/schema";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { LanguageToggle } from "@/components/language-toggle";
 import { useEffect, useState } from "react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -59,8 +60,8 @@ export default function ScenarioDetail() {
     e.preventDefault();
     if (!commentText.trim() || !commenterName.trim()) {
       toast({
-        title: language === "zh" ? "请填写完整信息" : "Please fill in all fields",
-        description: language === "zh" ? "评论内容和姓名不能为空" : "Comment and name cannot be empty",
+        title: t("comments.validationError"),
+        description: t("comments.validationErrorDesc"),
         variant: "destructive",
       });
       return;
@@ -89,8 +90,8 @@ export default function ScenarioDetail() {
     URL.revokeObjectURL(url);
     
     toast({
-      title: language === "zh" ? "导出成功" : "Export Successful",
-      description: language === "zh" ? "项目数据已导出为JSON文件" : "Project data exported as JSON file",
+      title: t("detail.exportSuccess"),
+      description: t("detail.exportSuccessDesc"),
     });
   };
 
@@ -127,7 +128,7 @@ export default function ScenarioDetail() {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-4" data-testid="text-not-found">
-            {language === "zh" ? "项目未找到" : "Project Not Found"}
+            {t("detail.notFound")}
           </h2>
           <Link href="/">
             <Button data-testid="button-back-home">
@@ -155,6 +156,7 @@ export default function ScenarioDetail() {
               <Download className="w-4 h-4 mr-2" />
               {t("detail.exportScenario")}
             </Button>
+            <LanguageToggle />
             <ThemeToggle />
           </div>
         </div>
@@ -303,7 +305,7 @@ export default function ScenarioDetail() {
                     <div className="flex-1">
                       <div className="font-medium">{t("detail.requirementDoc")}</div>
                       <div className="text-sm text-muted-foreground">
-                        {language === "zh" ? "查看详细需求" : "View detailed requirements"}
+                        {t("detail.reqDocDesc")}
                       </div>
                     </div>
                     <ExternalLink className="w-4 h-4 text-muted-foreground" />
@@ -324,7 +326,7 @@ export default function ScenarioDetail() {
                     <div className="flex-1">
                       <div className="font-medium">{t("detail.githubRepo")}</div>
                       <div className="text-sm text-muted-foreground">
-                        {language === "zh" ? "查看源代码" : "View source code"}
+                        {t("detail.githubDesc")}
                       </div>
                     </div>
                     <ExternalLink className="w-4 h-4 text-muted-foreground" />
@@ -345,7 +347,7 @@ export default function ScenarioDetail() {
                     <div className="flex-1">
                       <div className="font-medium">{t("detail.demoManual")}</div>
                       <div className="text-sm text-muted-foreground">
-                        {language === "zh" ? "观看演示" : "Watch demo"}
+                        {t("detail.demoDesc")}
                       </div>
                     </div>
                     <ExternalLink className="w-4 h-4 text-muted-foreground" />
@@ -366,7 +368,7 @@ export default function ScenarioDetail() {
                     <div className="flex-1">
                       <div className="font-medium">{t("detail.installGuide")}</div>
                       <div className="text-sm text-muted-foreground">
-                        {language === "zh" ? "部署指南" : "Deployment guide"}
+                        {t("detail.installDesc")}
                       </div>
                     </div>
                     <ExternalLink className="w-4 h-4 text-muted-foreground" />
@@ -416,7 +418,7 @@ export default function ScenarioDetail() {
             <div className="space-y-4">
               {isLoadingComments ? (
                 <div className="text-center text-muted-foreground py-8">
-                  {language === "zh" ? "加载评论中..." : "Loading comments..."}
+                  {t("comments.loading")}
                 </div>
               ) : comments.length === 0 ? (
                 <div className="text-center text-muted-foreground py-8">
