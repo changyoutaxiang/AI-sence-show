@@ -78,12 +78,33 @@ export default function Admin() {
   };
 
   const addMetric = () => {
-    if (metricInput.trim() && metrics.length < 5) {
-      const newMetrics = [...metrics, metricInput.trim()];
-      setMetrics(newMetrics);
-      form.setValue("metrics", newMetrics, { shouldValidate: true });
-      setMetricInput("");
+    if (!metricInput.trim()) {
+      toast({
+        title: t("admin.metricEmptyTitle"),
+        description: t("admin.metricEmptyDesc"),
+        variant: "destructive",
+      });
+      return;
     }
+    
+    if (metrics.length >= 5) {
+      toast({
+        title: t("admin.metricLimitTitle"),
+        description: t("admin.metricLimitDesc"),
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    const newMetrics = [...metrics, metricInput.trim()];
+    setMetrics(newMetrics);
+    form.setValue("metrics", newMetrics, { shouldValidate: true });
+    setMetricInput("");
+    
+    toast({
+      title: t("admin.metricAddedTitle"),
+      description: t("admin.metricAddedDesc"),
+    });
   };
 
   const removeMetric = (index: number) => {

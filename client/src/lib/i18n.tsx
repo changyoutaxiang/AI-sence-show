@@ -144,6 +144,12 @@ const translations = {
     "admin.successDesc": "新的原子场景已成功添加到展示中心",
     "admin.errorTitle": "提交失败",
     "admin.errorDesc": "请检查表单内容后重试",
+    "admin.metricEmptyTitle": "请输入指标内容",
+    "admin.metricEmptyDesc": "指标内容不能为空",
+    "admin.metricLimitTitle": "已达上限",
+    "admin.metricLimitDesc": "最多只能添加5个关键指标",
+    "admin.metricAddedTitle": "指标已添加",
+    "admin.metricAddedDesc": "关键指标添加成功",
     
     // Analytics Page
     "analytics.title": "项目浏览量分析",
@@ -295,6 +301,12 @@ const translations = {
     "admin.successDesc": "New atomic scenario has been successfully added to the showcase center",
     "admin.errorTitle": "Submission Failed",
     "admin.errorDesc": "Please check the form content and try again",
+    "admin.metricEmptyTitle": "Please Enter Metric",
+    "admin.metricEmptyDesc": "Metric content cannot be empty",
+    "admin.metricLimitTitle": "Limit Reached",
+    "admin.metricLimitDesc": "Maximum 5 key metrics allowed",
+    "admin.metricAddedTitle": "Metric Added",
+    "admin.metricAddedDesc": "Key metric added successfully",
     
     // Analytics Page
     "analytics.title": "Project Views Analytics",
