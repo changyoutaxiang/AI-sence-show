@@ -20,13 +20,22 @@ Full-featured application complete with all enhancements. The application includ
 - 6 seeded sample atomic scenarios
 
 ## Recent Changes (October 21, 2025 - Latest)
+**UI Simplification & Comments Feature:**
+- Removed avatar images system-wide - now only showing owner name as text attribution
+- Made scenario cards fully clickable - removed redundant "查看详情" button for cleaner UX
+- Added user comments feature:
+  * Users can leave comments on scenario detail pages (comment content + commenter name)
+  * New comments table with scenarioId reference, createdAt timestamps
+  * Comment API endpoints: GET /api/scenarios/:id/comments, POST /api/scenarios/:id/comments
+  * Comment form with validation, toast notifications, and cache invalidation
+  * Comments displayed newest-first with formatted timestamps using date-fns
+- Updated admin form to remove ownerAvatar field (only ownerName required now)
+- Simplified owner display across all pages: icon + name (no avatars)
+
 **Owner Attribution & Resource Links:**
-- Added owner information to data model: ownerName (required) and ownerAvatar (optional)
-- Enhanced scenario cards: removed category badge overlay from images, added circular owner avatar and name at bottom
-- Updated detail pages: metadata section now shows owner info with avatar (3 columns: team, timeline, owner)
-- Added 4 optional resource links: requirementDocUrl, githubRepoUrl, demoManualUrl, installGuideUrl
+- Owner information: ownerName (required, text-only attribution)
+- 4 optional resource links: requirementDocUrl, githubRepoUrl, demoManualUrl, installGuideUrl
 - Detail pages display clickable resource links card with icons when links are available
-- Admin form enhanced with owner fields and resource link inputs
 - All 6 seeded scenarios updated with owner information and sample resource links
 
 **Database Migration:**
@@ -62,8 +71,14 @@ Scenarios contain:
 - Basic info: title, description, category
 - Problem/solution narrative: businessProblem, solution, technicalDetails, impact
 - Metadata: team, timeline, metrics[], imageUrl
-- Owner attribution: ownerName (required), ownerAvatar (optional)
+- Owner attribution: ownerName (required, text-only)
 - Resource links (all optional): requirementDocUrl, githubRepoUrl, demoManualUrl, installGuideUrl
+
+Comments contain:
+- scenarioId: foreign key reference to scenarios
+- commentText: the comment content
+- commenterName: name of the person leaving the comment
+- createdAt: timestamp for sorting and display
 
 ### Frontend Structure
 - `/` - Homepage with hero, search, category filters, and card grid
@@ -85,6 +100,8 @@ Scenarios contain:
   - POST /api/scenarios - Create new scenario
   - POST /api/scenarios/:id/view - Track scenario view
   - GET /api/analytics - Get aggregated view counts
+  - GET /api/scenarios/:id/comments - Fetch comments for a scenario
+  - POST /api/scenarios/:id/comments - Create a new comment
 - Validation using Zod schemas from drizzle-zod
 
 ### Technology Stack
@@ -98,7 +115,7 @@ Scenarios contain:
 None recorded yet.
 
 ## Completed Enhancements
-✅ Owner attribution - Scenario cards and detail pages display project owner with avatar
+✅ Owner attribution - Scenario cards and detail pages display project owner (text-only, no avatars)
 ✅ Resource links - Detail pages show clickable links to requirement docs, GitHub repos, demos, and installation guides
 ✅ Improved card layout - Removed overlapping category badges, cleaner owner info display
 ✅ Search functionality - Real-time filtering by keywords across multiple fields
@@ -106,6 +123,8 @@ None recorded yet.
 ✅ Analytics tracking - View counts for each scenario with aggregated dashboard
 ✅ Export functionality - JSON export for individual scenarios and analytics data
 ✅ Database persistence - PostgreSQL database with proper migrations
+✅ Comments system - Users can leave comments on scenario detail pages with name and content
+✅ Simplified UI - Made entire scenario cards clickable, removed redundant buttons
 
 ## Potential Future Enhancements
 - Enable tagging system for cross-category scenario discovery
@@ -114,4 +133,5 @@ None recorded yet.
 - Add image upload functionality instead of URL input
 - Create comparison view to compare multiple scenarios side-by-side
 - Add email notifications when new scenarios are submitted
-- Implement commenting/feedback system for scenarios
+- Add comment editing/deletion capabilities
+- Add comment moderation features
