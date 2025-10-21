@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { useTranslation } from "@/lib/i18n";
 
 const categoryColors = {
   "数据处理": "chart-3",
@@ -14,6 +15,7 @@ interface CategoryBadgeProps {
 }
 
 export function CategoryBadge({ category, className }: CategoryBadgeProps) {
+  const { t } = useTranslation();
   const colorKey = category as keyof typeof categoryColors;
   const chartColor = categoryColors[colorKey] || "chart-5";
   
@@ -28,7 +30,7 @@ export function CategoryBadge({ category, className }: CategoryBadgeProps) {
       }}
       data-testid={`badge-category-${category}`}
     >
-      {category}
+      {t(`category.${category}`)}
     </Badge>
   );
 }

@@ -15,10 +15,12 @@ import { ArrowLeft, Plus, Sparkles } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
+import { useTranslation } from "@/lib/i18n";
 
 const categories = ["数据处理", "自动化", "分析预测", "文档生成", "其他"];
 
 export default function Admin() {
+  const { t } = useTranslation();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [metrics, setMetrics] = useState<string[]>([]);
@@ -54,8 +56,8 @@ export default function Admin() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/scenarios"] });
       toast({
-        title: "提交成功",
-        description: "新的原子场景已成功添加到展示中心",
+        title: t("admin.successTitle"),
+        description: t("admin.successDesc"),
       });
       form.reset();
       setMetrics([]);
@@ -63,8 +65,8 @@ export default function Admin() {
     },
     onError: () => {
       toast({
-        title: "提交失败",
-        description: "请检查表单内容后重试",
+        title: t("admin.errorTitle"),
+        description: t("admin.errorDesc"),
         variant: "destructive",
       });
     },
@@ -97,12 +99,12 @@ export default function Admin() {
             <Link href="/">
               <Button variant="ghost" data-testid="button-back">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                返回首页
+                {t("common.backToHome")}
               </Button>
             </Link>
             <div className="flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-primary" />
-              <span className="text-xl font-bold">提交新项目</span>
+              <span className="text-xl font-bold">{t("admin.pageTitle")}</span>
             </div>
           </div>
           <ThemeToggle />
@@ -112,9 +114,9 @@ export default function Admin() {
       <div className="max-w-4xl mx-auto px-6 py-12">
         <Card className="p-8">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2" data-testid="text-title">添加原子场景</h1>
+            <h1 className="text-3xl font-bold mb-2" data-testid="text-title">{t("admin.formTitle")}</h1>
             <p className="text-muted-foreground" data-testid="text-description">
-              填写以下信息，将您的AI项目添加到展示中心，让全公司看到您的创新成果
+              {t("admin.pageSubtitle")}
             </p>
           </div>
 
@@ -125,9 +127,9 @@ export default function Admin() {
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>项目标题 *</FormLabel>
+                    <FormLabel>{t("admin.title")} *</FormLabel>
                     <FormControl>
-                      <Input placeholder="例：智能数据清洗系统" {...field} data-testid="input-title" />
+                      <Input placeholder={t("admin.titlePlaceholder")} {...field} data-testid="input-title" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -139,10 +141,10 @@ export default function Admin() {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>项目简介 *</FormLabel>
+                    <FormLabel>{t("admin.description")} *</FormLabel>
                     <FormControl>
                       <Textarea 
-                        placeholder="一句话描述项目核心价值..." 
+                        placeholder={t("admin.descriptionPlaceholder")} 
                         {...field}
                         data-testid="input-description"
                         rows={2}
@@ -158,17 +160,17 @@ export default function Admin() {
                 name="category"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>项目分类 *</FormLabel>
+                    <FormLabel>{t("admin.category")} *</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger data-testid="select-category">
-                          <SelectValue placeholder="选择分类" />
+                          <SelectValue placeholder={t("admin.selectCategory")} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         {categories.map((category) => (
                           <SelectItem key={category} value={category} data-testid={`option-category-${category}`}>
-                            {category}
+                            {t(`category.${category}`)}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -183,10 +185,10 @@ export default function Admin() {
                 name="businessProblem"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>业务挑战 *</FormLabel>
+                    <FormLabel>{t("admin.businessProblem")} *</FormLabel>
                     <FormControl>
                       <Textarea 
-                        placeholder="描述该项目要解决的业务问题..." 
+                        placeholder={t("admin.businessProblemPlaceholder")} 
                         {...field}
                         data-testid="input-business-problem"
                         rows={4}
@@ -202,10 +204,10 @@ export default function Admin() {
                 name="solution"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>解决方案 *</FormLabel>
+                    <FormLabel>{t("admin.solution")} *</FormLabel>
                     <FormControl>
                       <Textarea 
-                        placeholder="描述您的解决方案和实现方法..." 
+                        placeholder={t("admin.solutionPlaceholder")} 
                         {...field}
                         data-testid="input-solution"
                         rows={4}
@@ -221,10 +223,10 @@ export default function Admin() {
                 name="technicalDetails"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>技术实现 *</FormLabel>
+                    <FormLabel>{t("admin.technicalDetails")} *</FormLabel>
                     <FormControl>
                       <Textarea 
-                        placeholder="技术栈、核心算法、架构说明..." 
+                        placeholder={t("admin.technicalDetailsPlaceholder")} 
                         {...field}
                         data-testid="input-technical-details"
                         rows={4}
@@ -241,10 +243,10 @@ export default function Admin() {
                 name="impact"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>业务价值 *</FormLabel>
+                    <FormLabel>{t("admin.impact")} *</FormLabel>
                     <FormControl>
                       <Textarea 
-                        placeholder="量化描述项目带来的业务价值和影响..." 
+                        placeholder={t("admin.impactPlaceholder")} 
                         {...field}
                         data-testid="input-impact"
                         rows={4}
@@ -256,10 +258,10 @@ export default function Admin() {
               />
 
               <div className="space-y-2">
-                <FormLabel>关键指标</FormLabel>
+                <FormLabel>{t("admin.metrics")}</FormLabel>
                 <div className="flex gap-2">
                   <Input
-                    placeholder="例：效率提升80%"
+                    placeholder={t("admin.metricsPlaceholder")}
                     value={metricInput}
                     onChange={(e) => setMetricInput(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addMetric())}
@@ -284,7 +286,7 @@ export default function Admin() {
                     ))}
                   </div>
                 )}
-                <p className="text-sm text-muted-foreground">最多添加5个关键指标，点击标签可删除</p>
+                <p className="text-sm text-muted-foreground">{t("admin.metricsHelp")}</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -293,9 +295,9 @@ export default function Admin() {
                   name="team"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>项目团队 *</FormLabel>
+                      <FormLabel>{t("admin.team")} *</FormLabel>
                       <FormControl>
-                        <Input placeholder="例：数据智能团队" {...field} data-testid="input-team" />
+                        <Input placeholder={t("admin.teamPlaceholder")} {...field} data-testid="input-team" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -307,9 +309,9 @@ export default function Admin() {
                   name="timeline"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>完成周期 *</FormLabel>
+                      <FormLabel>{t("admin.timeline")} *</FormLabel>
                       <FormControl>
-                        <Input placeholder="例：3周" {...field} data-testid="input-timeline" />
+                        <Input placeholder={t("admin.timelinePlaceholder")} {...field} data-testid="input-timeline" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -322,9 +324,9 @@ export default function Admin() {
                 name="ownerName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>项目负责人 *</FormLabel>
+                    <FormLabel>{t("admin.ownerName")} *</FormLabel>
                     <FormControl>
-                      <Input placeholder="例：张伟" {...field} data-testid="input-owner-name" />
+                      <Input placeholder={t("admin.ownerNamePlaceholder")} {...field} data-testid="input-owner-name" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -336,16 +338,16 @@ export default function Admin() {
                 name="imageUrl"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>项目图片 URL *</FormLabel>
+                    <FormLabel>{t("admin.imageUrl")} *</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="https://images.unsplash.com/..." 
+                        placeholder={t("admin.imageUrlPlaceholder")} 
                         {...field}
                         data-testid="input-image-url"
                       />
                     </FormControl>
                     <p className="text-sm text-muted-foreground">
-                      推荐使用 Unsplash 或其他图片托管服务的链接
+                      {t("admin.imageUrlHelp")}
                     </p>
                     <FormMessage />
                   </FormItem>
@@ -353,8 +355,7 @@ export default function Admin() {
               />
 
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold">项目资源链接</h3>
-                <p className="text-sm text-muted-foreground">以下链接为可选项，请根据实际情况填写</p>
+                <h3 className="text-lg font-semibold">{t("admin.resources")}</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormField
@@ -362,10 +363,10 @@ export default function Admin() {
                     name="requirementDocUrl"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>需求文档链接</FormLabel>
+                        <FormLabel>{t("admin.requirementDoc")}</FormLabel>
                         <FormControl>
                           <Input 
-                            placeholder="https://..." 
+                            placeholder={t("admin.requirementDocPlaceholder")} 
                             {...field}
                             value={field.value || ""}
                             data-testid="input-requirement-doc"
@@ -381,10 +382,10 @@ export default function Admin() {
                     name="githubRepoUrl"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Github 仓库链接</FormLabel>
+                        <FormLabel>{t("admin.githubRepo")}</FormLabel>
                         <FormControl>
                           <Input 
-                            placeholder="https://github.com/..." 
+                            placeholder={t("admin.githubRepoPlaceholder")} 
                             {...field}
                             value={field.value || ""}
                             data-testid="input-github-repo"
@@ -400,10 +401,10 @@ export default function Admin() {
                     name="demoManualUrl"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>演示手册链接</FormLabel>
+                        <FormLabel>{t("admin.demoManual")}</FormLabel>
                         <FormControl>
                           <Input 
-                            placeholder="https://..." 
+                            placeholder={t("admin.demoManualPlaceholder")} 
                             {...field}
                             value={field.value || ""}
                             data-testid="input-demo-manual"
@@ -419,10 +420,10 @@ export default function Admin() {
                     name="installGuideUrl"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>安装说明链接</FormLabel>
+                        <FormLabel>{t("admin.installGuide")}</FormLabel>
                         <FormControl>
                           <Input 
-                            placeholder="https://..." 
+                            placeholder={t("admin.installGuidePlaceholder")} 
                             {...field}
                             value={field.value || ""}
                             data-testid="input-install-guide"
@@ -442,11 +443,11 @@ export default function Admin() {
                   data-testid="button-submit"
                   className="flex-1"
                 >
-                  {createScenario.isPending ? "提交中..." : "提交项目"}
+                  {createScenario.isPending ? t("admin.submitting") : t("admin.submitButton")}
                 </Button>
                 <Link href="/">
                   <Button type="button" variant="outline" data-testid="button-cancel">
-                    取消
+                    {t("common.cancel")}
                   </Button>
                 </Link>
               </div>

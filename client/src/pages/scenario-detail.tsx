@@ -13,8 +13,10 @@ import { useEffect, useState } from "react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
+import { useTranslation } from "@/lib/i18n";
 
 export default function ScenarioDetail() {
+  const { t, language } = useTranslation();
   const params = useParams();
   const scenarioId = params.id;
   const { toast } = useToast();
@@ -40,14 +42,14 @@ export default function ScenarioDetail() {
       setCommentText("");
       setCommenterName("");
       toast({
-        title: "评论成功",
-        description: "您的评论已发布",
+        title: t("comments.success"),
+        description: t("comments.successDesc"),
       });
     },
     onError: () => {
       toast({
-        title: "评论失败",
-        description: "请稍后重试",
+        title: t("comments.error"),
+        description: t("comments.errorDesc"),
         variant: "destructive",
       });
     },
@@ -57,8 +59,8 @@ export default function ScenarioDetail() {
     e.preventDefault();
     if (!commentText.trim() || !commenterName.trim()) {
       toast({
-        title: "请填写完整信息",
-        description: "评论内容和姓名不能为空",
+        title: language === "zh" ? "请填写完整信息" : "Please fill in all fields",
+        description: language === "zh" ? "评论内容和姓名不能为空" : "Comment and name cannot be empty",
         variant: "destructive",
       });
       return;
@@ -87,8 +89,8 @@ export default function ScenarioDetail() {
     URL.revokeObjectURL(url);
     
     toast({
-      title: "导出成功",
-      description: "项目数据已导出为JSON文件",
+      title: language === "zh" ? "导出成功" : "Export Successful",
+      description: language === "zh" ? "项目数据已导出为JSON文件" : "Project data exported as JSON file",
     });
   };
 
@@ -124,11 +126,13 @@ export default function ScenarioDetail() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4" data-testid="text-not-found">项目未找到</h2>
+          <h2 className="text-2xl font-bold mb-4" data-testid="text-not-found">
+            {language === "zh" ? "项目未找到" : "Project Not Found"}
+          </h2>
           <Link href="/">
             <Button data-testid="button-back-home">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              返回首页
+              {t("common.backToHome")}
             </Button>
           </Link>
         </div>
@@ -143,13 +147,13 @@ export default function ScenarioDetail() {
           <Link href="/">
             <Button variant="ghost" data-testid="button-back">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              返回首页
+              {t("common.backToHome")}
             </Button>
           </Link>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" onClick={exportScenario} data-testid="button-export">
               <Download className="w-4 h-4 mr-2" />
-              导出项目
+              {t("detail.exportScenario")}
             </Button>
             <ThemeToggle />
           </div>
@@ -159,7 +163,7 @@ export default function ScenarioDetail() {
       <div className="max-w-4xl mx-auto px-6 py-12">
         <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8" data-testid="breadcrumb">
           <Link href="/" className="hover:text-foreground transition-colors" data-testid="link-breadcrumb-home">
-            首页
+            {t("nav.home")}
           </Link>
           <span>/</span>
           <span className="text-foreground" data-testid="text-breadcrumb-current">{scenario.title}</span>
@@ -196,7 +200,7 @@ export default function ScenarioDetail() {
                   <Target className="w-5 h-5 text-chart-4" />
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-xl font-semibold mb-3" data-testid="text-section-problem">业务挑战</h2>
+                  <h2 className="text-xl font-semibold mb-3" data-testid="text-section-problem">{t("detail.businessProblem")}</h2>
                   <p className="text-muted-foreground leading-relaxed" data-testid="text-problem">
                     {scenario.businessProblem}
                   </p>
@@ -210,7 +214,7 @@ export default function ScenarioDetail() {
                   <Lightbulb className="w-5 h-5 text-chart-2" />
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-xl font-semibold mb-3" data-testid="text-section-solution">解决方案</h2>
+                  <h2 className="text-xl font-semibold mb-3" data-testid="text-section-solution">{t("detail.solution")}</h2>
                   <p className="text-muted-foreground leading-relaxed" data-testid="text-solution">
                     {scenario.solution}
                   </p>
@@ -224,7 +228,7 @@ export default function ScenarioDetail() {
                   <Code className="w-5 h-5 text-chart-1" />
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-xl font-semibold mb-3" data-testid="text-section-technical">技术实现</h2>
+                  <h2 className="text-xl font-semibold mb-3" data-testid="text-section-technical">{t("detail.technicalDetails")}</h2>
                   <p className="text-muted-foreground leading-relaxed font-mono text-sm" data-testid="text-technical">
                     {scenario.technicalDetails}
                   </p>
@@ -238,7 +242,7 @@ export default function ScenarioDetail() {
                   <TrendingUp className="w-5 h-5 text-chart-3" />
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-xl font-semibold mb-3" data-testid="text-section-impact">业务价值</h2>
+                  <h2 className="text-xl font-semibold mb-3" data-testid="text-section-impact">{t("detail.impact")}</h2>
                   <p className="text-muted-foreground leading-relaxed" data-testid="text-impact">
                     {scenario.impact}
                   </p>
@@ -254,7 +258,7 @@ export default function ScenarioDetail() {
                   <Users className="w-4 h-4 text-muted-foreground" />
                 </div>
                 <div>
-                  <div className="text-sm text-muted-foreground mb-1">项目团队</div>
+                  <div className="text-sm text-muted-foreground mb-1">{t("detail.team")}</div>
                   <div className="font-medium" data-testid="text-team">{scenario.team}</div>
                 </div>
               </div>
@@ -264,7 +268,7 @@ export default function ScenarioDetail() {
                   <Clock className="w-4 h-4 text-muted-foreground" />
                 </div>
                 <div>
-                  <div className="text-sm text-muted-foreground mb-1">完成周期</div>
+                  <div className="text-sm text-muted-foreground mb-1">{t("detail.timeline")}</div>
                   <div className="font-medium" data-testid="text-timeline">{scenario.timeline}</div>
                 </div>
               </div>
@@ -274,7 +278,7 @@ export default function ScenarioDetail() {
                   <User className="w-4 h-4 text-muted-foreground" />
                 </div>
                 <div>
-                  <div className="text-sm text-muted-foreground mb-1">项目负责人</div>
+                  <div className="text-sm text-muted-foreground mb-1">{t("detail.owner")}</div>
                   <div className="font-medium" data-testid="text-owner">{scenario.ownerName}</div>
                 </div>
               </div>
@@ -283,7 +287,7 @@ export default function ScenarioDetail() {
 
           {(scenario.requirementDocUrl || scenario.githubRepoUrl || scenario.demoManualUrl || scenario.installGuideUrl) && (
             <Card className="p-6">
-              <h2 className="text-xl font-semibold mb-4">项目资源</h2>
+              <h2 className="text-xl font-semibold mb-4">{t("detail.resources")}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {scenario.requirementDocUrl && (
                   <a 
@@ -297,8 +301,10 @@ export default function ScenarioDetail() {
                       <FileText className="w-5 h-5 text-chart-4" />
                     </div>
                     <div className="flex-1">
-                      <div className="font-medium">需求文档</div>
-                      <div className="text-sm text-muted-foreground">查看详细需求</div>
+                      <div className="font-medium">{t("detail.requirementDoc")}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {language === "zh" ? "查看详细需求" : "View detailed requirements"}
+                      </div>
                     </div>
                     <ExternalLink className="w-4 h-4 text-muted-foreground" />
                   </a>
@@ -316,8 +322,10 @@ export default function ScenarioDetail() {
                       <Github className="w-5 h-5 text-chart-1" />
                     </div>
                     <div className="flex-1">
-                      <div className="font-medium">Github 仓库</div>
-                      <div className="text-sm text-muted-foreground">查看源代码</div>
+                      <div className="font-medium">{t("detail.githubRepo")}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {language === "zh" ? "查看源代码" : "View source code"}
+                      </div>
                     </div>
                     <ExternalLink className="w-4 h-4 text-muted-foreground" />
                   </a>
@@ -335,8 +343,10 @@ export default function ScenarioDetail() {
                       <Book className="w-5 h-5 text-chart-2" />
                     </div>
                     <div className="flex-1">
-                      <div className="font-medium">演示手册</div>
-                      <div className="text-sm text-muted-foreground">观看演示</div>
+                      <div className="font-medium">{t("detail.demoManual")}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {language === "zh" ? "观看演示" : "Watch demo"}
+                      </div>
                     </div>
                     <ExternalLink className="w-4 h-4 text-muted-foreground" />
                   </a>
@@ -354,8 +364,10 @@ export default function ScenarioDetail() {
                       <Settings className="w-5 h-5 text-chart-3" />
                     </div>
                     <div className="flex-1">
-                      <div className="font-medium">安装说明</div>
-                      <div className="text-sm text-muted-foreground">部署指南</div>
+                      <div className="font-medium">{t("detail.installGuide")}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {language === "zh" ? "部署指南" : "Deployment guide"}
+                      </div>
                     </div>
                     <ExternalLink className="w-4 h-4 text-muted-foreground" />
                   </a>
@@ -367,14 +379,14 @@ export default function ScenarioDetail() {
           <Card className="p-6">
             <div className="flex items-center gap-2 mb-6">
               <MessageCircle className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-semibold">用户评论</h2>
+              <h2 className="text-xl font-semibold">{t("comments.title")}</h2>
               <Badge variant="outline" className="ml-2">{comments.length}</Badge>
             </div>
 
             <form onSubmit={handleSubmitComment} className="mb-8 space-y-4">
               <div>
                 <Textarea
-                  placeholder="写下您的评论..."
+                  placeholder={t("comments.commentPlaceholder")}
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
                   className="resize-none"
@@ -384,7 +396,7 @@ export default function ScenarioDetail() {
               </div>
               <div className="flex gap-4">
                 <Input
-                  placeholder="您的姓名"
+                  placeholder={t("comments.namePlaceholder")}
                   value={commenterName}
                   onChange={(e) => setCommenterName(e.target.value)}
                   className="max-w-xs"
@@ -396,17 +408,19 @@ export default function ScenarioDetail() {
                   data-testid="button-submit-comment"
                 >
                   <Send className="w-4 h-4 mr-2" />
-                  {createCommentMutation.isPending ? "发布中..." : "发布评论"}
+                  {createCommentMutation.isPending ? t("comments.posting") : t("comments.postComment")}
                 </Button>
               </div>
             </form>
 
             <div className="space-y-4">
               {isLoadingComments ? (
-                <div className="text-center text-muted-foreground py-8">加载评论中...</div>
+                <div className="text-center text-muted-foreground py-8">
+                  {language === "zh" ? "加载评论中..." : "Loading comments..."}
+                </div>
               ) : comments.length === 0 ? (
                 <div className="text-center text-muted-foreground py-8">
-                  暂无评论，快来发表第一条评论吧！
+                  {t("comments.empty")}，{t("comments.beFirst")}
                 </div>
               ) : (
                 comments.map((comment) => (

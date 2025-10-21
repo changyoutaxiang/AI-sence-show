@@ -139,6 +139,12 @@ const translations = {
     "analytics.views": "浏览量",
     "analytics.category": "分类",
     "analytics.noData": "暂无浏览数据",
+    "analytics.totalScenarios": "项目总数",
+    "analytics.totalViews": "总浏览量",
+    "analytics.avgViews": "平均浏览量",
+    "analytics.viewCount": "次浏览",
+    "analytics.exportSuccess": "导出成功",
+    "analytics.exportSuccessDesc": "分析数据已导出为JSON文件",
   },
   en: {
     // Common
@@ -268,6 +274,12 @@ const translations = {
     "analytics.views": "Views",
     "analytics.category": "Category",
     "analytics.noData": "No view data available",
+    "analytics.totalScenarios": "Total Projects",
+    "analytics.totalViews": "Total Views",
+    "analytics.avgViews": "Average Views",
+    "analytics.viewCount": "views",
+    "analytics.exportSuccess": "Export Successful",
+    "analytics.exportSuccessDesc": "Analytics data has been exported as JSON file",
   },
 };
 

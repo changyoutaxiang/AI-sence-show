@@ -7,6 +7,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { CategoryBadge } from "@/components/category-badge";
 import type { Scenario } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "@/lib/i18n";
 
 interface AnalyticsData {
   scenarioId: string;
@@ -15,6 +16,7 @@ interface AnalyticsData {
 }
 
 export default function Analytics() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const { data: analytics, isLoading } = useQuery<AnalyticsData[]>({
     queryKey: ["/api/analytics"],
@@ -26,12 +28,12 @@ export default function Analytics() {
     if (!analytics) return;
     
     const exportData = analytics.map(item => ({
-      排名: analytics.indexOf(item) + 1,
-      项目标题: item.scenario.title,
-      分类: item.scenario.category,
-      浏览次数: item.viewCount,
-      团队: item.scenario.team,
-      完成周期: item.scenario.timeline,
+      [t("analytics.rank")]: analytics.indexOf(item) + 1,
+      [t("analytics.scenario")]: item.scenario.title,
+      [t("analytics.category")]: item.scenario.category,
+      [t("analytics.views")]: item.viewCount,
+      [t("detail.team")]: item.scenario.team,
+      [t("detail.timeline")]: item.scenario.timeline,
     }));
     
     const dataStr = JSON.stringify(exportData, null, 2);
@@ -46,8 +48,8 @@ export default function Analytics() {
     URL.revokeObjectURL(url);
     
     toast({
-      title: "导出成功",
-      description: "分析数据已导出为JSON文件",
+      title: t("analytics.exportSuccess"),
+      description: t("analytics.exportSuccessDesc"),
     });
   };
 
@@ -59,18 +61,18 @@ export default function Analytics() {
             <Link href="/">
               <Button variant="ghost" data-testid="button-back">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                返回首页
+                {t("common.backToHome")}
               </Button>
             </Link>
             <div className="flex items-center gap-2">
               <TrendingUp className="w-5 h-5 text-primary" />
-              <span className="text-xl font-bold">数据分析</span>
+              <span className="text-xl font-bold">{t("nav.analytics")}</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" onClick={exportAnalytics} data-testid="button-export-analytics">
               <Download className="w-4 h-4 mr-2" />
-              导出数据
+              {t("analytics.exportAnalytics")}
             </Button>
             <ThemeToggle />
           </div>
@@ -79,9 +81,9 @@ export default function Analytics() {
 
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2" data-testid="text-title">项目浏览分析</h1>
+          <h1 className="text-4xl font-bold mb-2" data-testid="text-title">{t("analytics.title")}</h1>
           <p className="text-muted-foreground" data-testid="text-description">
-            查看哪些AI原子场景最受关注，了解用户浏览趋势
+            {t("analytics.subtitle")}
           </p>
         </div>
 
@@ -92,7 +94,7 @@ export default function Analytics() {
                 <Sparkles className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">项目总数</p>
+                <p className="text-sm text-muted-foreground">{t("analytics.totalScenarios")}</p>
                 <p className="text-3xl font-bold" data-testid="text-total-scenarios">
                   {analytics?.length || 0}
                 </p>
@@ -106,7 +108,7 @@ export default function Analytics() {
                 <Eye className="w-6 h-6 text-chart-2" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">总浏览量</p>
+                <p className="text-sm text-muted-foreground">{t("analytics.totalViews")}</p>
                 <p className="text-3xl font-bold" data-testid="text-total-views">
                   {totalViews}
                 </p>
@@ -120,7 +122,7 @@ export default function Analytics() {
                 <TrendingUp className="w-6 h-6 text-chart-3" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">平均浏览量</p>
+                <p className="text-sm text-muted-foreground">{t("analytics.avgViews")}</p>
                 <p className="text-3xl font-bold" data-testid="text-avg-views">
                   {analytics?.length ? Math.round(totalViews / analytics.length) : 0}
                 </p>
@@ -130,7 +132,7 @@ export default function Analytics() {
         </div>
 
         <Card className="p-6">
-          <h2 className="text-2xl font-semibold mb-6" data-testid="text-section-title">项目浏览排行</h2>
+          <h2 className="text-2xl font-semibold mb-6" data-testid="text-section-title">{t("analytics.topViewed")}</h2>
           
           {isLoading ? (
             <div className="space-y-4">
@@ -167,7 +169,7 @@ export default function Analytics() {
                         <div className="flex items-center gap-6 text-sm">
                           <div className="flex items-center gap-2 text-muted-foreground">
                             <Eye className="w-4 h-4" />
-                            <span data-testid={`text-view-count-${index}`}>{item.viewCount} 次浏览</span>
+                            <span data-testid={`text-view-count-${index}`}>{item.viewCount} {t("analytics.viewCount")}</span>
                           </div>
                           <div className="text-muted-foreground">
                             {item.scenario.team}
@@ -187,7 +189,7 @@ export default function Analytics() {
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
                 <TrendingUp className="w-8 h-8 text-muted-foreground" />
               </div>
-              <p className="text-muted-foreground" data-testid="text-empty">暂无浏览数据</p>
+              <p className="text-muted-foreground" data-testid="text-empty">{t("analytics.noData")}</p>
             </div>
           )}
         </Card>

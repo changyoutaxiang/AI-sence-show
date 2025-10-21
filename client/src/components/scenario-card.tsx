@@ -2,12 +2,15 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
 import type { Scenario } from "@shared/schema";
+import { useTranslation } from "@/lib/i18n";
 
 interface ScenarioCardProps {
   scenario: Scenario;
 }
 
 export function ScenarioCard({ scenario }: ScenarioCardProps) {
+  const { t } = useTranslation();
+  
   return (
     <Link href={`/scenario/${scenario.id}`} data-testid={`link-scenario-${scenario.id}`}>
       <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-200 h-full flex flex-col">
@@ -44,7 +47,7 @@ export function ScenarioCard({ scenario }: ScenarioCardProps) {
           </div>
           
           <div className="text-sm text-muted-foreground" data-testid={`text-owner-${scenario.id}`}>
-            项目负责人：{scenario.ownerName}
+            {t("card.owner")}：{scenario.ownerName}
           </div>
         </div>
       </Card>
