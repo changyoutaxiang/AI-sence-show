@@ -39,7 +39,6 @@ export default function Admin() {
       timeline: "",
       metrics: [],
       ownerName: "",
-      ownerAvatar: "",
       requirementDocUrl: "",
       githubRepoUrl: "",
       demoManualUrl: "",
@@ -318,43 +317,19 @@ export default function Admin() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormField
-                  control={form.control}
-                  name="ownerName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>项目负责人 *</FormLabel>
-                      <FormControl>
-                        <Input placeholder="例：张伟" {...field} data-testid="input-owner-name" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="ownerAvatar"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>负责人头像 URL</FormLabel>
-                      <FormControl>
-                        <Input 
-                          placeholder="https://api.dicebear.com/7.x/avataaars/svg?seed=..." 
-                          {...field}
-                          value={field.value || ""}
-                          data-testid="input-owner-avatar"
-                        />
-                      </FormControl>
-                      <p className="text-sm text-muted-foreground">
-                        可选，推荐使用 DiceBear 或其他头像服务
-                      </p>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              <FormField
+                control={form.control}
+                name="ownerName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>项目负责人 *</FormLabel>
+                    <FormControl>
+                      <Input placeholder="例：张伟" {...field} data-testid="input-owner-name" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <FormField
                 control={form.control}

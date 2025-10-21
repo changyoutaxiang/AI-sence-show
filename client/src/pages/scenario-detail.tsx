@@ -1,26 +1,70 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { useParams, Link } from "wouter";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { ArrowLeft, Users, Clock, Target, Lightbulb, Code, TrendingUp, Download, User, FileText, Github, Book, Settings, ExternalLink } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { ArrowLeft, Users, Clock, Target, Lightbulb, Code, TrendingUp, Download, User, FileText, Github, Book, Settings, ExternalLink, MessageCircle, Send } from "lucide-react";
 import { CategoryBadge } from "@/components/category-badge";
-import type { Scenario } from "@shared/schema";
+import type { Scenario, Comment } from "@shared/schema";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { useEffect } from "react";
-import { apiRequest } from "@/lib/queryClient";
+import { useEffect, useState } from "react";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { format } from "date-fns";
 
 export default function ScenarioDetail() {
   const params = useParams();
   const scenarioId = params.id;
   const { toast } = useToast();
+  const [commentText, setCommentText] = useState("");
+  const [commenterName, setCommenterName] = useState("");
 
   const { data: scenario, isLoading } = useQuery<Scenario>({
     queryKey: [`/api/scenarios/${scenarioId}`],
     enabled: !!scenarioId,
   });
+
+  const { data: comments = [], isLoading: isLoadingComments } = useQuery<Comment[]>({
+    queryKey: [`/api/scenarios/${scenarioId}/comments`],
+    enabled: !!scenarioId,
+  });
+
+  const createCommentMutation = useMutation({
+    mutationFn: async (data: { commentText: string; commenterName: string }) => {
+      return await apiRequest("POST", `/api/scenarios/${scenarioId}/comments`, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`/api/scenarios/${scenarioId}/comments`] });
+      setCommentText("");
+      setCommenterName("");
+      toast({
+        title: "评论成功",
+        description: "您的评论已发布",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "评论失败",
+        description: "请稍后重试",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleSubmitComment = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!commentText.trim() || !commenterName.trim()) {
+      toast({
+        title: "请填写完整信息",
+        description: "评论内容和姓名不能为空",
+        variant: "destructive",
+      });
+      return;
+    }
+    createCommentMutation.mutate({ commentText, commenterName });
+  };
 
   useEffect(() => {
     if (scenarioId) {
@@ -226,12 +270,9 @@ export default function ScenarioDetail() {
               </div>
 
               <div className="flex items-start gap-3">
-                <Avatar className="w-8 h-8">
-                  <AvatarImage src={scenario.ownerAvatar || undefined} alt={scenario.ownerName} />
-                  <AvatarFallback className="bg-primary/10">
-                    <User className="w-4 h-4 text-primary" />
-                  </AvatarFallback>
-                </Avatar>
+                <div className="w-8 h-8 rounded-lg bg-background flex items-center justify-center flex-shrink-0">
+                  <User className="w-4 h-4 text-muted-foreground" />
+                </div>
                 <div>
                   <div className="text-sm text-muted-foreground mb-1">项目负责人</div>
                   <div className="font-medium" data-testid="text-owner">{scenario.ownerName}</div>
@@ -322,6 +363,79 @@ export default function ScenarioDetail() {
               </div>
             </Card>
           )}
+
+          <Card className="p-6">
+            <div className="flex items-center gap-2 mb-6">
+              <MessageCircle className="w-5 h-5 text-primary" />
+              <h2 className="text-xl font-semibold">用户评论</h2>
+              <Badge variant="outline" className="ml-2">{comments.length}</Badge>
+            </div>
+
+            <form onSubmit={handleSubmitComment} className="mb-8 space-y-4">
+              <div>
+                <Textarea
+                  placeholder="写下您的评论..."
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  className="resize-none"
+                  rows={4}
+                  data-testid="input-comment-text"
+                />
+              </div>
+              <div className="flex gap-4">
+                <Input
+                  placeholder="您的姓名"
+                  value={commenterName}
+                  onChange={(e) => setCommenterName(e.target.value)}
+                  className="max-w-xs"
+                  data-testid="input-commenter-name"
+                />
+                <Button 
+                  type="submit" 
+                  disabled={createCommentMutation.isPending}
+                  data-testid="button-submit-comment"
+                >
+                  <Send className="w-4 h-4 mr-2" />
+                  {createCommentMutation.isPending ? "发布中..." : "发布评论"}
+                </Button>
+              </div>
+            </form>
+
+            <div className="space-y-4">
+              {isLoadingComments ? (
+                <div className="text-center text-muted-foreground py-8">加载评论中...</div>
+              ) : comments.length === 0 ? (
+                <div className="text-center text-muted-foreground py-8">
+                  暂无评论，快来发表第一条评论吧！
+                </div>
+              ) : (
+                comments.map((comment) => (
+                  <div 
+                    key={comment.id} 
+                    className="border rounded-lg p-4 hover-elevate transition-all"
+                    data-testid={`comment-${comment.id}`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                          <User className="w-4 h-4 text-primary" />
+                        </div>
+                        <span className="font-medium" data-testid={`comment-name-${comment.id}`}>
+                          {comment.commenterName}
+                        </span>
+                      </div>
+                      <span className="text-sm text-muted-foreground" data-testid={`comment-date-${comment.id}`}>
+                        {format(new Date(comment.createdAt), "yyyy年MM月dd日 HH:mm")}
+                      </span>
+                    </div>
+                    <p className="text-muted-foreground leading-relaxed" data-testid={`comment-text-${comment.id}`}>
+                      {comment.commentText}
+                    </p>
+                  </div>
+                ))
+              )}
+            </div>
+          </Card>
         </div>
       </div>
     </div>

@@ -1,7 +1,5 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { ArrowRight, User } from "lucide-react";
 import { Link } from "wouter";
 import type { Scenario } from "@shared/schema";
 
@@ -45,23 +43,8 @@ export function ScenarioCard({ scenario }: ScenarioCardProps) {
             ))}
           </div>
           
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-2" data-testid={`owner-info-${scenario.id}`}>
-              <Avatar className="w-8 h-8">
-                <AvatarImage src={scenario.ownerAvatar || undefined} alt={scenario.ownerName} />
-                <AvatarFallback>
-                  <User className="w-4 h-4" />
-                </AvatarFallback>
-              </Avatar>
-              <span className="text-sm text-muted-foreground" data-testid={`text-owner-${scenario.id}`}>
-                {scenario.ownerName}
-              </span>
-            </div>
-            
-            <div className="flex items-center gap-2 text-primary text-sm font-medium">
-              <span data-testid={`link-detail-${scenario.id}`}>查看详情</span>
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </div>
+          <div className="text-sm text-muted-foreground" data-testid={`text-owner-${scenario.id}`}>
+            项目负责人：{scenario.ownerName}
           </div>
         </div>
       </Card>
