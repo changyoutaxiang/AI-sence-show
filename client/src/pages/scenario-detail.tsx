@@ -12,11 +12,10 @@ export default function ScenarioDetail() {
   const params = useParams();
   const scenarioId = params.id;
 
-  const { data: scenarios, isLoading } = useQuery<Scenario[]>({
-    queryKey: ["/api/scenarios"],
+  const { data: scenario, isLoading } = useQuery<Scenario>({
+    queryKey: ["/api/scenarios", scenarioId],
+    enabled: !!scenarioId,
   });
-
-  const scenario = scenarios?.find((s) => s.id === scenarioId);
 
   if (isLoading) {
     return (
