@@ -38,6 +38,12 @@ export default function Admin() {
       team: "",
       timeline: "",
       metrics: [],
+      ownerName: "",
+      ownerAvatar: "",
+      requirementDocUrl: "",
+      githubRepoUrl: "",
+      demoManualUrl: "",
+      installGuideUrl: "",
     },
   });
 
@@ -312,6 +318,44 @@ export default function Admin() {
                 />
               </div>
 
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="ownerName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>项目负责人 *</FormLabel>
+                      <FormControl>
+                        <Input placeholder="例：张伟" {...field} data-testid="input-owner-name" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="ownerAvatar"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>负责人头像 URL</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="https://api.dicebear.com/7.x/avataaars/svg?seed=..." 
+                          {...field}
+                          value={field.value || ""}
+                          data-testid="input-owner-avatar"
+                        />
+                      </FormControl>
+                      <p className="text-sm text-muted-foreground">
+                        可选，推荐使用 DiceBear 或其他头像服务
+                      </p>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
               <FormField
                 control={form.control}
                 name="imageUrl"
@@ -332,6 +376,89 @@ export default function Admin() {
                   </FormItem>
                 )}
               />
+
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">项目资源链接</h3>
+                <p className="text-sm text-muted-foreground">以下链接为可选项，请根据实际情况填写</p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="requirementDocUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>需求文档链接</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="https://..." 
+                            {...field}
+                            value={field.value || ""}
+                            data-testid="input-requirement-doc"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="githubRepoUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Github 仓库链接</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="https://github.com/..." 
+                            {...field}
+                            value={field.value || ""}
+                            data-testid="input-github-repo"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="demoManualUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>演示手册链接</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="https://..." 
+                            {...field}
+                            value={field.value || ""}
+                            data-testid="input-demo-manual"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="installGuideUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>安装说明链接</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="https://..." 
+                            {...field}
+                            value={field.value || ""}
+                            data-testid="input-install-guide"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
 
               <div className="flex gap-4 pt-4">
                 <Button

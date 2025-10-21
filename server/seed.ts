@@ -14,6 +14,12 @@ const sampleScenarios: InsertScenario[] = [
     team: "数据智能团队",
     timeline: "3周",
     metrics: ["效率提升80%", "准确率98%", "覆盖3部门"],
+    ownerName: "张伟",
+    ownerAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=zhangwei",
+    requirementDocUrl: "https://example.com/docs/data-cleaning-req",
+    githubRepoUrl: "https://github.com/company/data-cleaning-system",
+    demoManualUrl: "https://example.com/docs/data-cleaning-demo",
+    installGuideUrl: "https://example.com/docs/data-cleaning-install",
   },
   {
     title: "合同审批自动化流程",
@@ -27,6 +33,10 @@ const sampleScenarios: InsertScenario[] = [
     team: "企业效率团队",
     timeline: "4周",
     metrics: ["审批提速71%", "工作量减少60%", "识别率95%"],
+    ownerName: "李娜",
+    ownerAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=lina",
+    requirementDocUrl: "https://example.com/docs/contract-req",
+    githubRepoUrl: "https://github.com/company/contract-approval",
   },
   {
     title: "销售预测分析平台",
@@ -40,6 +50,10 @@ const sampleScenarios: InsertScenario[] = [
     team: "商业智能团队",
     timeline: "6周",
     metrics: ["准确率82%", "周转率+35%", "节省500万"],
+    ownerName: "王强",
+    ownerAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=wangqiang",
+    githubRepoUrl: "https://github.com/company/sales-forecast",
+    demoManualUrl: "https://example.com/docs/sales-demo",
   },
   {
     title: "会议纪要智能生成",
@@ -53,6 +67,10 @@ const sampleScenarios: InsertScenario[] = [
     team: "协作效率团队",
     timeline: "3周",
     metrics: ["节省20分钟", "完整度95%", "使用率90%"],
+    ownerName: "赵敏",
+    ownerAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=zhaomin",
+    requirementDocUrl: "https://example.com/docs/meeting-req",
+    installGuideUrl: "https://example.com/docs/meeting-install",
   },
   {
     title: "客户情绪分析引擎",
@@ -66,6 +84,10 @@ const sampleScenarios: InsertScenario[] = [
     team: "客户体验团队",
     timeline: "4周",
     metrics: ["响应提速98%", "解决率+40%", "流失率-15%"],
+    ownerName: "刘洋",
+    ownerAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=liuyang",
+    githubRepoUrl: "https://github.com/company/sentiment-engine",
+    demoManualUrl: "https://example.com/docs/sentiment-demo",
   },
   {
     title: "自动化报表生成器",
@@ -79,6 +101,11 @@ const sampleScenarios: InsertScenario[] = [
     team: "数据服务团队",
     timeline: "3周",
     metrics: ["自动化100%", "节省8小时", "准确率100%"],
+    ownerName: "陈婷",
+    ownerAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=chenting",
+    requirementDocUrl: "https://example.com/docs/report-req",
+    githubRepoUrl: "https://github.com/company/report-generator",
+    installGuideUrl: "https://example.com/docs/report-install",
   },
 ];
 

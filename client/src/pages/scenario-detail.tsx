@@ -3,7 +3,8 @@ import { useParams, Link } from "wouter";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Users, Clock, Target, Lightbulb, Code, TrendingUp, Download } from "lucide-react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { ArrowLeft, Users, Clock, Target, Lightbulb, Code, TrendingUp, Download, User, FileText, Github, Book, Settings, ExternalLink } from "lucide-react";
 import { CategoryBadge } from "@/components/category-badge";
 import type { Scenario } from "@shared/schema";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -203,7 +204,7 @@ export default function ScenarioDetail() {
           </div>
 
           <Card className="p-6 bg-muted/50">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg bg-background flex items-center justify-center flex-shrink-0">
                   <Users className="w-4 h-4 text-muted-foreground" />
@@ -223,8 +224,104 @@ export default function ScenarioDetail() {
                   <div className="font-medium" data-testid="text-timeline">{scenario.timeline}</div>
                 </div>
               </div>
+
+              <div className="flex items-start gap-3">
+                <Avatar className="w-8 h-8">
+                  <AvatarImage src={scenario.ownerAvatar || undefined} alt={scenario.ownerName} />
+                  <AvatarFallback className="bg-primary/10">
+                    <User className="w-4 h-4 text-primary" />
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <div className="text-sm text-muted-foreground mb-1">项目负责人</div>
+                  <div className="font-medium" data-testid="text-owner">{scenario.ownerName}</div>
+                </div>
+              </div>
             </div>
           </Card>
+
+          {(scenario.requirementDocUrl || scenario.githubRepoUrl || scenario.demoManualUrl || scenario.installGuideUrl) && (
+            <Card className="p-6">
+              <h2 className="text-xl font-semibold mb-4">项目资源</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {scenario.requirementDocUrl && (
+                  <a 
+                    href={scenario.requirementDocUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 rounded-lg border hover-elevate active-elevate-2 transition-colors"
+                    data-testid="link-requirement-doc"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-chart-4/20 flex items-center justify-center flex-shrink-0">
+                      <FileText className="w-5 h-5 text-chart-4" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-medium">需求文档</div>
+                      <div className="text-sm text-muted-foreground">查看详细需求</div>
+                    </div>
+                    <ExternalLink className="w-4 h-4 text-muted-foreground" />
+                  </a>
+                )}
+
+                {scenario.githubRepoUrl && (
+                  <a 
+                    href={scenario.githubRepoUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 rounded-lg border hover-elevate active-elevate-2 transition-colors"
+                    data-testid="link-github-repo"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-chart-1/20 flex items-center justify-center flex-shrink-0">
+                      <Github className="w-5 h-5 text-chart-1" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-medium">Github 仓库</div>
+                      <div className="text-sm text-muted-foreground">查看源代码</div>
+                    </div>
+                    <ExternalLink className="w-4 h-4 text-muted-foreground" />
+                  </a>
+                )}
+
+                {scenario.demoManualUrl && (
+                  <a 
+                    href={scenario.demoManualUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 rounded-lg border hover-elevate active-elevate-2 transition-colors"
+                    data-testid="link-demo-manual"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-chart-2/20 flex items-center justify-center flex-shrink-0">
+                      <Book className="w-5 h-5 text-chart-2" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-medium">演示手册</div>
+                      <div className="text-sm text-muted-foreground">观看演示</div>
+                    </div>
+                    <ExternalLink className="w-4 h-4 text-muted-foreground" />
+                  </a>
+                )}
+
+                {scenario.installGuideUrl && (
+                  <a 
+                    href={scenario.installGuideUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 rounded-lg border hover-elevate active-elevate-2 transition-colors"
+                    data-testid="link-install-guide"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-chart-3/20 flex items-center justify-center flex-shrink-0">
+                      <Settings className="w-5 h-5 text-chart-3" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-medium">安装说明</div>
+                      <div className="text-sm text-muted-foreground">部署指南</div>
+                    </div>
+                    <ExternalLink className="w-4 h-4 text-muted-foreground" />
+                  </a>
+                )}
+              </div>
+            </Card>
+          )}
         </div>
       </div>
     </div>
