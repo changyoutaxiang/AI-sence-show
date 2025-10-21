@@ -27,7 +27,7 @@ const translations = {
     "common.contact": "联系我们",
     "common.team": "团队介绍",
     "common.footer": "© 2025 AI原子场景展示中心. 持续创新，服务业务。",
-    "common.languageToggle": "切换到中文",
+    "common.languageToggle": "Switch to English",
     "common.languageToggleAria": "切换语言",
     
     // Navigation
@@ -178,7 +178,7 @@ const translations = {
     "common.contact": "Contact",
     "common.team": "Team",
     "common.footer": "© 2025 AI Atomic Scenarios Showcase. Innovation for Business.",
-    "common.languageToggle": "Switch to English",
+    "common.languageToggle": "切换到中文",
     "common.languageToggleAria": "Toggle language",
     
     // Navigation

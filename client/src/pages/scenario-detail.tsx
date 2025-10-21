@@ -17,7 +17,7 @@ import { format } from "date-fns";
 import { useTranslation } from "@/lib/i18n";
 
 export default function ScenarioDetail() {
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
   const params = useParams();
   const scenarioId = params.id;
   const { toast } = useToast();
