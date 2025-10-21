@@ -1,4 +1,4 @@
-import { scenarios, scenarioViews, type Scenario, type InsertScenario, type InsertScenarioView } from "@shared/schema";
+import { scenarios, scenarioViews, comments, type Scenario, type InsertScenario, type InsertScenarioView, type Comment, type InsertComment } from "@shared/schema";
 import { db } from "./db";
 import { eq, sql, desc } from "drizzle-orm";
 
@@ -8,6 +8,8 @@ export interface IStorage {
   createScenario(scenario: InsertScenario): Promise<Scenario>;
   trackView(view: InsertScenarioView): Promise<void>;
   getAnalytics(): Promise<Array<{ scenarioId: string; viewCount: number; scenario: Scenario }>>;
+  getCommentsByScenarioId(scenarioId: string): Promise<Comment[]>;
+  createComment(comment: InsertComment): Promise<Comment>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -45,6 +47,22 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(sql`count(*)`));
     
     return result;
+  }
+
+  async getCommentsByScenarioId(scenarioId: string): Promise<Comment[]> {
+    return await db
+      .select()
+      .from(comments)
+      .where(eq(comments.scenarioId, scenarioId))
+      .orderBy(desc(comments.createdAt));
+  }
+
+  async createComment(insertComment: InsertComment): Promise<Comment> {
+    const [comment] = await db
+      .insert(comments)
+      .values(insertComment)
+      .returning();
+    return comment;
   }
 }
 

@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertScenarioSchema, insertScenarioViewSchema } from "@shared/schema";
+import { insertScenarioSchema, insertScenarioViewSchema, insertCommentSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/scenarios", async (_req, res) => {
@@ -51,6 +51,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(analytics);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch analytics" });
+    }
+  });
+
+  app.get("/api/scenarios/:id/comments", async (req, res) => {
+    try {
+      const comments = await storage.getCommentsByScenarioId(req.params.id);
+      res.json(comments);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch comments" });
+    }
+  });
+
+  app.post("/api/scenarios/:id/comments", async (req, res) => {
+    try {
+      const validatedData = insertCommentSchema.parse({
+        ...req.body,
+        scenarioId: req.params.id,
+      });
+      const comment = await storage.createComment(validatedData);
+      res.status(201).json(comment);
+    } catch (error) {
+      res.status(400).json({ error: "Invalid comment data" });
     }
   });
 
