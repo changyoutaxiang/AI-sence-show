@@ -4,7 +4,7 @@ import { Upload, X, Image as ImageIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface ImageUploadProps {
-  value?: string;
+  value?: string | null;
   onChange: (url: string) => void;
   label: string;
   aspectRatio?: "square" | "video";
@@ -20,7 +20,7 @@ export function ImageUpload({
 }: ImageUploadProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState<string | undefined>(value);
+  const [previewUrl, setPreviewUrl] = useState<string | undefined>(value || undefined);
   const { toast } = useToast();
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
