@@ -2,8 +2,24 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertScenarioSchema, insertScenarioViewSchema, insertCommentSchema } from "@shared/schema";
+import { upload } from "./upload";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Image upload endpoint
+  app.post("/api/upload", upload.single("image"), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "没有上传文件" });
+      }
+
+      // Return the file path that can be accessed via static file serving
+      const imageUrl = `/uploads/${req.file.filename}`;
+      res.json({ url: imageUrl });
+    } catch (error) {
+      res.status(500).json({ error: "图片上传失败" });
+    }
+  });
+
   app.get("/api/scenarios", async (_req, res) => {
     try {
       const scenarios = await storage.getAllScenarios();

@@ -17,6 +17,7 @@ export const scenarios = pgTable("scenarios", {
   timeline: text("timeline").notNull(),
   metrics: text("metrics").array().notNull(),
   ownerName: text("owner_name").notNull(),
+  ownerAvatar: text("owner_avatar"),
   requirementDocUrl: text("requirement_doc_url"),
   githubRepoUrl: text("github_repo_url"),
   demoManualUrl: text("demo_manual_url"),

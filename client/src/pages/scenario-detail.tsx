@@ -276,8 +276,16 @@ export default function ScenarioDetail() {
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-background flex items-center justify-center flex-shrink-0">
-                  <User className="w-4 h-4 text-muted-foreground" />
+                <div className="w-8 h-8 rounded-lg bg-background flex items-center justify-center flex-shrink-0 overflow-hidden">
+                  {scenario.ownerAvatar ? (
+                    <img
+                      src={scenario.ownerAvatar}
+                      alt={scenario.ownerName}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <User className="w-4 h-4 text-muted-foreground" />
+                  )}
                 </div>
                 <div>
                   <div className="text-sm text-muted-foreground mb-1">{t("detail.owner")}</div>

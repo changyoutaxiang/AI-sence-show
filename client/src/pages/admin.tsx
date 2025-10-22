@@ -17,6 +17,7 @@ import { LanguageToggle } from "@/components/language-toggle";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { useTranslation } from "@/lib/i18n";
+import { ImageUpload } from "@/components/image-upload";
 
 const categories = ["数据处理", "自动化", "分析预测", "文档生成", "其他"];
 
@@ -42,6 +43,7 @@ export default function Admin() {
       timeline: "",
       metrics: [],
       ownerName: "",
+      ownerAvatar: "",
       requirementDocUrl: "",
       githubRepoUrl: "",
       demoManualUrl: "",
@@ -360,20 +362,37 @@ export default function Admin() {
 
               <FormField
                 control={form.control}
+                name="ownerAvatar"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <ImageUpload
+                        value={field.value}
+                        onChange={field.onChange}
+                        label={t("admin.ownerAvatar")}
+                        aspectRatio="square"
+                        placeholder={t("admin.ownerAvatarPlaceholder")}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
                 name="imageUrl"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("admin.imageUrl")} *</FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder={t("admin.imageUrlPlaceholder")} 
-                        {...field}
-                        data-testid="input-image-url"
+                      <ImageUpload
+                        value={field.value}
+                        onChange={field.onChange}
+                        label={`${t("admin.imageUrl")} *`}
+                        aspectRatio="video"
+                        placeholder={t("admin.imageUrlPlaceholder")}
                       />
                     </FormControl>
-                    <p className="text-sm text-muted-foreground">
-                      {t("admin.imageUrlHelp")}
-                    </p>
                     <FormMessage />
                   </FormItem>
                 )}
